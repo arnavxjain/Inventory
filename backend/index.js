@@ -25,7 +25,7 @@ db.connect((err) => {
     console.log('Connected To Inventory[db] Successfully!');
 });
 
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 // starting the server
 app.listen(PORT, () => {
@@ -40,5 +40,15 @@ app.get("/inventory", (req, res) => {
     db.query(`SELECT * FROM log`, (err, result) => {
         if (err) throw err;
         res.send(result);
+    });
+});
+
+app.get("/inventory/item/:id", (req, res) => {
+    const id = req.params.id;
+
+    db.query(`SELECT * FROM log WHERE id = ${id}`, (err, results) => {
+        if (err) throw err;
+
+        res.send(results);
     });
 });
